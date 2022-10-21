@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './App.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Navbar from './Components/Navbar';
@@ -11,7 +11,9 @@ import SignUp from './Components/account/SignUp';
 import PasswordResetEmail from './Components/account/PasswordResetEmail';
 import CategoryPosts from './Components/posts/CategoryPosts';
 import AuthorPost from './Components/posts/authorPost';
-import ActivationEmail from './Components/account/ActivationEmail'
+import ActivationEmail from './Components/account/ActivationEmail';
+import About from './Components/home/about';
+import Contact from './Components/home/Contact';
 
 function App() {
 
@@ -31,10 +33,7 @@ function App() {
     console.log(user)
   }
 
-  // useEffect(() => {
-  //   getUser();
-  //   // eslint-disable-next-line 
-  // }, [])
+ 
 
   return (
     <>
@@ -51,7 +50,7 @@ function App() {
             <UpdateView getUser={getUser} user={user.username} />
           </Route>
           <Route exact path="/postdetail/:id">
-            <DetailView getUser={getUser} user={user.username} toggle={toggle} />
+            <DetailView getUser={getUser} user={user.username} userId={user.id} toggle={toggle} />
           </Route>
           <Route exact path="/posts/category/:category">
             <CategoryPosts />
@@ -70,6 +69,12 @@ function App() {
           </Route>
           <Route exact path="/password-reset">
             <PasswordResetEmail />
+          </Route>
+          <Route exact path="/about">
+            <About />
+          </Route>
+          <Route exact path="/contact">
+            <Contact />
           </Route>
         </Switch>
       </BrowserRouter>

@@ -1,4 +1,5 @@
 import Post from '../model/post.js';
+import router from '../routes/routes.js';
 
 export const createPost = async (req, res) => {
     try {
@@ -88,5 +89,21 @@ export const deletePost = async (request, response) => {
         response.status(200).json('post deleted successfully');
     } catch (error) {
         response.status(500).json(error)
+    }
+}
+
+export const likes=async(request,response)=>{
+    try {
+        const post=await Post.findById(request.params.id);
+        if(!post.likes.includes(request.body.userId)){
+            await post.updateOne({$push:{likes:request.body.userId}});
+            response.status(200).json("post has been liked")
+        }else{
+            await post.updateOne({$pull:{likes:request.body.userId}});
+            response.status(200).json("post has been disliked")
+        }
+    } catch (error) {
+        response.status(500).json(error)
+        console.log(error)
     }
 }

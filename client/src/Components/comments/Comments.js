@@ -51,6 +51,8 @@ const Comments = (props) => {
 
     const postComment = async () => {
         await newComment(comment);
+        alert("success ful")
+        window.location.reload()
         setcomment({
             ...comment,
             name: '',

@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-// import Link from '@mui/material/Link';
+
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { LockOutlined } from '@material-ui/icons'
@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 import {Link} from 'react-router-dom'
+import { Alert } from '@mui/material';
 
 const theme = createTheme();
 
@@ -33,10 +34,15 @@ export default function SignIn(props) {
             let response = await axios.post("http://localhost:8000/api/users/login", credential);
             if (response.data.success) {
                 localStorage.setItem('token', response.data.authtoken);
+                alert("Success full")
                 history.push('/');
                 props.settoggle(prev => !prev)
+            }else{
+                Alert("check credential")
+                alert("check Credential")
             }
         } catch (error) {
+            alert(error)
             console.log(error)
         }
         setcredential({ username: "", password: "" });
@@ -104,6 +110,7 @@ export default function SignIn(props) {
                                     Forgot password?
                                 </Link>
                             </Grid>
+                            <br/>
                             <Grid item>
                                 <Link to="/signup" variant="body2">
                                     {"Don't have an account? Sign Up"}

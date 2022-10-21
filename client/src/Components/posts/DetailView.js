@@ -5,11 +5,25 @@ import { Delete, Edit } from '@material-ui/icons';
 import { Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { useParams, useHistory } from 'react-router-dom';
-import { getPost, deletePost } from '../../Services/api'
+import { getPost, deletePost,Likes } from '../../Services/api'
 import Comments from '../comments/Comments';
 
 const DetailView = (props) => {
-
+    const [user, setuser] = useState({})
+    const getUser = async () => {
+      const response = await fetch("http://localhost:8000/api/users/getuser", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'auth-token': localStorage.getItem('token')
+        }
+      });
+      let json = await response.json();
+      setuser(json.id);
+      settoggle(prev => !prev)
+      console.log(user)
+    }
+  
     const useStyles = makeStyles(theme => ({
         image: {
             width: '100%',
@@ -57,14 +71,27 @@ const DetailView = (props) => {
     let history = useHistory()
 
     let params = useParams();
-
+    const [dislikes,setdislikes]=useState(false)
+    const [len,setlen] =useState(0)
     const [post, setpost] = useState({});
-
+    const dislike= async () => {
+        let data =await Likes(params.id,{userId:user})
+        setdislikes(!dislikes)
+        alert("Likes or dislikes")
+        
+    }
     const fetchData = async () => {
         let data = await getPost(params.id);
+        console.log("data",data.likes.length)
+        setlen(data.likes.length)
         setpost(data)
+       
     }
+    useEffect(() => {
+        fetchData()
 
+        // eslint-disable-next-line
+    }, [dislikes])
     const url = post.picture ? post.picture : "https://images.unsplash.com/photo-1543128639-4cb7e6eeef1b?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bGFwdG9wJTIwc2V0dXB8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
 
     useEffect(() => {
@@ -75,6 +102,7 @@ const DetailView = (props) => {
 
     const deleteBlog = async () => {
         await deletePost(params.id)
+        alert("Deleted ")
         history.push('/')
     }
 
@@ -90,6 +118,7 @@ const DetailView = (props) => {
                         </Box> : ""
                 }
                 <Typography className={classes.heading}>{post.title}</Typography>
+                <button class="btn btn-primary"onClick={dislike}>Likes  {len}</button>
                 <Box className={classes.subheading}>
                     <Link to={`/posts/author/${post.author}`} className={classes.link} >
                         <Typography>Author: <span style={{ fontWeight: 600 }}>{post.author}</span></Typography>

@@ -120,3 +120,21 @@ export const deleteComment = async (id) => {
         console.log("Error while deleting the comment", error)
     }
 }
+
+export const contactemail=async(contact)=>{
+    try {
+        return await axios.post(`${host}/api/contact`,contact)
+    } catch (error) {
+        console.log(error)
+        
+    }
+}
+
+export const Likes=async(id,bob)=>{
+    try {
+        return await axios.put(`${host}/api/${id}/like`,bob)
+    } catch (error) {
+        console.log(error)
+        
+    }
+}

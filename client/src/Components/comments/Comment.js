@@ -35,6 +35,7 @@ const Comment = (props) => {
 
     const removeComment = async (id) => {
         await deleteComment(id);
+        alert("Deleted")
         settoggle(prev=>!prev);
     }
 
@@ -48,7 +49,9 @@ const Comment = (props) => {
                     <Typography className={classes.date}>{new Date(comment.createdAt).toLocaleString()}</Typography>
                     {
                         props.user === comment.name ?
-                        <Delete onClick={() => removeComment(comment._id)} className={classes.delete} />
+                        <Delete onClick={() =>
+                            
+                            removeComment(comment._id)} className={classes.delete} />
                         : ""
                     }
                 </Box>

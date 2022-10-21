@@ -21,6 +21,9 @@ const PostSchema = mongoose.Schema({
     categories: {
         type: String,
         required: false
+    },
+    likes:{
+        type:Array,
     }
 }, { timestamps: true });
 

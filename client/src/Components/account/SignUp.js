@@ -31,10 +31,12 @@ export default function SignUp() {
             let response = await axios.post("http://localhost:8000/api/users/createuser", credential);
             if (response.data.success) {
                 console.log("Email Sent")
+                
                 history.push("/activationmail")
                 setcredential({ username: "", email: "", password: "" });
             }
         } catch (error) {
+            alert(error)
             console.log(error)
         }
     }
