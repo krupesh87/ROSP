@@ -20,7 +20,7 @@ const DetailView = (props) => {
       });
       let json = await response.json();
       setuser(json.id);
-      settoggle(prev => !prev)
+    //   settoggle(prev => !prev)
       console.log(user)
     }
   
